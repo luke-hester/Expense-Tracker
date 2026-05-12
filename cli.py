@@ -16,6 +16,9 @@ add_parser.add_argument("-a", "--amount", type=float, required=True)
 
 # 'update' command
 update_parser = subparser.add_parser("update")
+update_parser.add_argument("--id", type=int, required=True)
+update_parser.add_argument("-d", "--description", type=str)
+update_parser.add_argument("-a", "--amount", type=float)
 
 # 'delete' command
 delete_parser = subparser.add_parser("delete")

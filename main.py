@@ -13,7 +13,6 @@ def main():
         expense = Expense(args.description, args.amount)
 
     elif args.command == "list":
-        print(f"DEBUG: {Expense.expenses}")
         print("# ID Date Description Amount")
         for e in Expense.expenses:
             print(f"{e.id} {e.timestamp} {e.description} {e.amount}")
@@ -25,7 +24,24 @@ def main():
             print("Expense deleted successfully")
         else:
             print("No expense with id {id} found.")
-        
+    
+    elif args.command == "update":
+        e = next((x for x in Expense.expenses if x.id == args.id), None)
+        if not e:
+            print("No expense with id {id} found.")
+        else:
+            modified = False
+            if args.description:
+                e.description = args.description
+                modified = True
+            if args.amount:
+                e.amount = args.amount
+                modified = True
+
+            if modified:
+                print("Expense updated successfully")
+            else:
+                print("Please pass values to update")
     
     # Save data
     Expense.export_to_csv()
