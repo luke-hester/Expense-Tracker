@@ -53,7 +53,8 @@ class Expense:
                     from_csv=True
                     )
 
-        Expense.id = max(e.id for e in Expense.expenses)
+        if len(Expense.expenses) > 0:
+            Expense.id = max(e.id for e in Expense.expenses)
 
     @staticmethod
     def export_to_csv():

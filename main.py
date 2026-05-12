@@ -13,9 +13,12 @@ def main():
         expense = Expense(args.description, args.amount)
 
     elif args.command == "list":
-        print("# ID Date Description Amount")
-        for e in Expense.expenses:
-            print(f"{e.id} {e.timestamp} {e.description} {e.amount}")
+        if len(Expense.expenses) == 0:
+            print("No expenses saved.")
+        else:
+            print("# ID Date Description Amount")
+            for e in Expense.expenses:
+                print(f"{e.id} {e.timestamp} {e.description} {e.amount}")
 
     elif args.command == "delete":
         e = next((x for x in Expense.expenses if x.id == args.id), None)
