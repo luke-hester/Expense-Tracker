@@ -45,6 +45,12 @@ def main():
                 print("Expense updated successfully")
             else:
                 print("Please pass values to update")
+
+    elif args.command == "summary":
+        total = 0
+        for e in Expense.expenses:
+            total += e.amount
+        print(f"Total expenses: ${total}")
     
     # Save data
     Expense.export_to_csv()
