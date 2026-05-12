@@ -26,6 +26,7 @@ delete_parser.add_argument("--id", type=int, required=True)
 
 # 'summary' command
 summary_parser = subparser.add_parser("summary")
+summary_parser.add_argument("-m", "--month", type=int)
 
 # 'list' command
 list_parser = subparser.add_parser("list")

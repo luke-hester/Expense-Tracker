@@ -1,3 +1,4 @@
+import datetime
 from cli import parser
 from expense import Expense
 
@@ -47,10 +48,26 @@ def main():
                 print("Please pass values to update")
 
     elif args.command == "summary":
-        total = 0
-        for e in Expense.expenses:
-            total += e.amount
-        print(f"Total expenses: ${total}")
+        if args.month:
+            if 1 <= args.month <= 12:
+                current_year = datetime.datetime.now().year
+
+                total = 0
+                for e in Expense.expenses:
+                    e_time_obj = datetime.datetime.strptime(e.timestamp, "%Y-%m-%d")
+                    e_year = e_time_obj.year
+                    e_month = e_time_obj.month
+                    if e_year == current_year and e_month == args.month:
+                        total += e.amount
+                print(f"Total expenses for ({current_year}/{args.month}): ${total}")
+            else:
+                print("Invalid month. Please enter value 1 - 12")
+
+        else:
+            total = 0
+            for e in Expense.expenses:
+                total += e.amount
+            print(f"Total expenses: ${total}")
     
     # Save data
     Expense.export_to_csv()
