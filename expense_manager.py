@@ -2,7 +2,7 @@ import datetime
 from expense import Expense
 
 def add_expense(args):
-    Expense(args.description, args.amount)
+    Expense(args.description, args.amount, args.category)
 
 def update_expense(args):
     e = next((x for x in Expense.expenses if x.id == args.id), None)
@@ -15,6 +15,9 @@ def update_expense(args):
             modified = True
         if args.amount:
             e.amount = args.amount
+            modified = True
+        if args.category:
+            e.category = args.category
             modified = True
 
         if modified:
@@ -56,10 +59,10 @@ def list_expenses(args):
     if len(Expense.expenses) == 0:
         return "No expenses saved."
     
-    lines = ["# ID Date Description Amount"]
+    lines = ["# ID Date Category Description Amount"]
     
     for e in Expense.expenses:
-        lines.append(f"{e.id} {e.timestamp} {e.description} {e.amount}")
+        lines.append(f"{e.id} {e.timestamp} {e.category} {e.description} {e.amount}")
 
     return "\n".join(lines)
 

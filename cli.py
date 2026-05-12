@@ -13,12 +13,14 @@ subparser = parser.add_subparsers(dest="command")
 add_parser = subparser.add_parser("add")
 add_parser.add_argument("-d", "--description", type=str, required=True)
 add_parser.add_argument("-a", "--amount", type=float, required=True)
+add_parser.add_argument("-c", "--category", type=str)
 
 # 'update' command
 update_parser = subparser.add_parser("update")
 update_parser.add_argument("--id", type=int, required=True)
 update_parser.add_argument("-d", "--description", type=str)
 update_parser.add_argument("-a", "--amount", type=float)
+update_parser.add_argument("-c", "--category", type=str)
 
 # 'delete' command
 delete_parser = subparser.add_parser("delete")

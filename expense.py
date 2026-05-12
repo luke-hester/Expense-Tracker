@@ -6,15 +6,16 @@ class Expense:
     # Class Attributes
     id = 0
     expenses = []
-    def __init__(self, description: str, amount: float, id: int = None, timestamp: str = None, from_csv: bool = False):
+    def __init__(self, description: str, amount: float, category: str, id: int = None, timestamp: str = None, from_csv: bool = False):
         # Validate arguments
         assert amount >= 0, f"Amount {amount} cannot be negative."
 
         # Assign values to self
         self.description = description
         self.amount = amount
-        self.id = id or Expense.create_id()
-        self.timestamp = timestamp or Expense.create_timestamp()
+        self.category = category if category else "Uncategorized"
+        self.id = id if id is not None else Expense.create_id()
+        self.timestamp = timestamp if timestamp is not None else Expense.create_timestamp()
 
         # Execute actions
         Expense.expenses.append(self)
@@ -23,7 +24,7 @@ class Expense:
             print(f"Expense added successfully (ID: {self.id})")
 
     def __repr__(self):
-        return f"{self.__class__.__name__}('{self.description}', {self.amount}, {self.id}, {self.timestamp})"
+        return f"{self.__class__.__name__}('{self.description}', {self.amount}, {self.category}, {self.id}, {self.timestamp})"
 
     @classmethod
     def create_id(cls):
@@ -48,6 +49,7 @@ class Expense:
                 e = Expense(
                     description=row["description"],
                     amount=float(row["amount"]),
+                    category=row["category"],
                     id=int(row["id"]),
                     timestamp=row["timestamp"],
                     from_csv=True
@@ -58,7 +60,7 @@ class Expense:
 
     @staticmethod
     def export_to_csv():
-        fieldnames = ["description", "amount", "id", "timestamp"]
+        fieldnames = ["description", "amount", "category", "id", "timestamp"]
         with open("expenses.csv", "w", newline='') as file:
             writer = csv.DictWriter(file, fieldnames=fieldnames)
             writer.writeheader()
