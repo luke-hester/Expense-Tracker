@@ -19,6 +19,7 @@ update_parser = subparser.add_parser("update")
 
 # 'delete' command
 delete_parser = subparser.add_parser("delete")
+delete_parser.add_argument("--id", type=int, required=True)
 
 # 'summary' command
 summary_parser = subparser.add_parser("summary")
