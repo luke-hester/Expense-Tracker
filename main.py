@@ -27,12 +27,12 @@ def main():
             Expense.expenses.remove(e)
             print("Expense deleted successfully")
         else:
-            print("No expense with id {id} found.")
+            print(f"No expense with id {id} found.")
     
     elif args.command == "update":
         e = next((x for x in Expense.expenses if x.id == args.id), None)
         if not e:
-            print("No expense with id {id} found.")
+            print(f"No expense with id {id} found.")
         else:
             modified = False
             if args.description:
