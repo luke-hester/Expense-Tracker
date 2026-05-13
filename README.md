@@ -16,6 +16,6 @@ Application should run from the command line and should have the following featu
 
 Additional features that you can add to the application:
 
-- Add expense categories and allow users to filter expenses by category. [ ]
+- Add expense categories and allow users to filter expenses by category. [x]
 - Allow users to set a budget for each month and show a warning when the user exceeds the budget. [ ]
 - Allow users to export expenses to a CSV file. [x]
