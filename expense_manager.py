@@ -59,9 +59,13 @@ def list_expenses(args):
     if len(Expense.expenses) == 0:
         return "No expenses saved."
     
+    if args.filter is not None:
+        expenses = [e for e in Expense.expenses if e.category == args.filter]
+    else:
+        expenses = Expense.expenses
+
     lines = ["# ID Date Category Description Amount"]
-    
-    for e in Expense.expenses:
+    for e in expenses:
         lines.append(f"{e.id} {e.timestamp} {e.category} {e.description} {e.amount}")
 
     return "\n".join(lines)

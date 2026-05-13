@@ -32,3 +32,4 @@ summary_parser.add_argument("-m", "--month", type=int)
 
 # 'list' command
 list_parser = subparser.add_parser("list")
+list_parser.add_argument("-f", "--filter", type=str)
