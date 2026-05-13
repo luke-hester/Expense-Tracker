@@ -1,6 +1,6 @@
 import argparse
 
-# Commands: "add", "update", "delete", "summary", "list", "help"
+# Commands: "add", "update", "delete", "summary", "list", "budget"
 
 parser = argparse.ArgumentParser(
     prog="expense-tracker",
@@ -33,3 +33,9 @@ summary_parser.add_argument("-m", "--month", type=int)
 # 'list' command
 list_parser = subparser.add_parser("list")
 list_parser.add_argument("-f", "--filter", type=str)
+
+# 'budget' command
+budget_parser = subparser.add_parser("budget")
+budget_parser.add_argument("-y", "--year", type=int, required=True)
+budget_parser.add_argument("-m", "--month", type=int, required=True)
+budget_parser.add_argument("-b", "--budget", type=float, required=True)
