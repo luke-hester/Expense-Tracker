@@ -70,6 +70,11 @@ def list_expenses(args):
 
     return "\n".join(lines)
 
+def set_budget(args):
+    key = f"{args.year}-{args.month:02d}"
+    Expense.budgets[key] = args.budget
+    return f"Budget set for {key}: ${args.budget}"
+
 def handle_commands(args):
     response = ""
 
@@ -87,5 +92,8 @@ def handle_commands(args):
 
     elif args.command == "summary":
         response = get_summary(args)
+
+    elif args.command == "budget":
+        response = set_budget(args)
 
     return response
