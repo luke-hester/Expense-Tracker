@@ -6,6 +6,7 @@ class Expense:
     # Class Attributes
     id = 0
     expenses = []
+    budgets = {}  # {"2026-05": 1200, "2026-06": 800} # contains only strings
     def __init__(self, description: str, amount: float, category: str, id: int = None, timestamp: str = None, from_csv: bool = False):
         # Validate arguments
         assert amount >= 0, f"Amount {amount} cannot be negative."
@@ -66,3 +67,23 @@ class Expense:
             writer.writeheader()
             for expense in Expense.expenses:
                 writer.writerow(vars(expense))
+
+    @staticmethod
+    def load_budget():
+        filename = "budgets.csv"
+        if not os.path.exists(filename):
+            return
+        with open(filename, "r") as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                print(row)
+                Expense.budgets[row["timestamp"]] = row["budget"]
+
+    @staticmethod
+    def save_budget():
+        fieldnames = ["timestamp", "budget"]
+        with open("budgets.csv", "w", newline="") as file:
+            writer = csv.DictWriter(file, fieldnames=fieldnames)
+            writer.writeheader()
+            for timestamp, budget in Expense.budgets.items():
+                writer.writerow({"timestamp": timestamp, "budget": budget})
