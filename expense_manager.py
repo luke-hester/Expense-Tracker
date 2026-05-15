@@ -23,7 +23,7 @@ def add_expense(args):
         else:
             response = f"Spent: €{total_spent:.2f}/{monthly_budget:.2f} of budget for {now.strftime('%B %Y')}"
 
-    return ""
+    return response
 
 def update_expense(args):
     e = next((x for x in Expense.expenses if x.id == args.id), None)
