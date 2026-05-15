@@ -2,7 +2,26 @@ import datetime
 from expense import Expense
 
 def add_expense(args):
-    Expense(args.description, args.amount, args.category)
+    expense = Expense(args.description, args.amount, args.category)
+
+    now = datetime.datetime.now()
+    current_month = now.strftime("%Y-%m")
+
+    if current_month in Expense.budgets:
+        monthly_budget = float(Expense.budgets[current_month])
+
+        total_spent = sum(
+            e.amount for e in Expense.expenses
+            if e.timestamp.startswith(current_month)
+        )
+
+        if total_spent > monthly_budget:
+            overspend = total_spent - monthly_budget
+            print(f"Warning: You are €{overspend:.2f} over your {now.strftime('%B %Y')} budget of €{monthly_budget:.2f}!")
+        else:
+            print(f"Spent: €{total_spent:.2f}/{monthly_budget:.2f} of budget for {now.strftime('%B %Y')}")
+
+    return ""
 
 def update_expense(args):
     e = next((x for x in Expense.expenses if x.id == args.id), None)
