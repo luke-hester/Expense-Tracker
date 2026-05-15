@@ -2,6 +2,8 @@ import datetime
 from expense import Expense
 
 def add_expense(args):
+    response = ""
+
     expense = Expense(args.description, args.amount, args.category)
 
     now = datetime.datetime.now()
@@ -17,9 +19,9 @@ def add_expense(args):
 
         if total_spent > monthly_budget:
             overspend = total_spent - monthly_budget
-            print(f"Warning: You are €{overspend:.2f} over your {now.strftime('%B %Y')} budget of €{monthly_budget:.2f}!")
+            response = f"Warning: You are €{overspend:.2f} over your {now.strftime('%B %Y')} budget of €{monthly_budget:.2f}!"
         else:
-            print(f"Spent: €{total_spent:.2f}/{monthly_budget:.2f} of budget for {now.strftime('%B %Y')}")
+            response = f"Spent: €{total_spent:.2f}/{monthly_budget:.2f} of budget for {now.strftime('%B %Y')}"
 
     return ""
 

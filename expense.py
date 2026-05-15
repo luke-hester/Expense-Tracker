@@ -76,7 +76,6 @@ class Expense:
         with open(filename, "r") as file:
             reader = csv.DictReader(file)
             for row in reader:
-                print(row)
                 Expense.budgets[row["timestamp"]] = row["budget"]
 
     @staticmethod
