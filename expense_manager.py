@@ -96,6 +96,11 @@ def set_budget(args):
     Expense.budgets[key] = args.budget
     return f"Budget set for {key}: ${args.budget}"
 
+def delete_budget(args):
+    key = f"{args.year}-{args.month:02d}"
+    r = Expense.budgets.pop(key, None)
+    return f"Budget for {key} deleted successfully" if r is not None else "Budget not found."
+
 def handle_commands(args):
     response = ""
 
@@ -116,5 +121,8 @@ def handle_commands(args):
 
     elif args.command == "budget":
         response = set_budget(args)
+    
+    elif args.command == "del_budget":
+        response = delete_budget(args)
 
     return response
