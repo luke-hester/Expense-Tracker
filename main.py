@@ -4,8 +4,8 @@ import expense_manager
 
 def main():
     # Load data
-    Expense.import_from_csv()
-    Expense.load_budget()
+    Expense.load_expenses()
+    Expense.load_budgets()
 
     # Get CLI args
     args = parser.parse_args()
@@ -15,8 +15,8 @@ def main():
     if response: print(response)
     
     # Save data
-    Expense.export_to_csv()
-    Expense.save_budget()
+    Expense.save_expenses()
+    Expense.save_budgets()
 
 if __name__ == "__main__":
     main()

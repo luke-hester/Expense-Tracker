@@ -7,6 +7,7 @@ class Expense:
     id = 0
     expenses = []
     budgets = {}  # {"2026-05": 1200, "2026-06": 800} # contains only strings
+
     def __init__(self, description: str, amount: float, category: str, id: int = None, timestamp: str = None, from_csv: bool = False):
         # Validate arguments
         assert amount >= 0, f"Amount {amount} cannot be negative."
@@ -18,7 +19,6 @@ class Expense:
         self.id = id if id is not None else Expense.create_id()
         self.timestamp = timestamp if timestamp is not None else Expense.create_timestamp()
 
-        # Execute actions
         Expense.expenses.append(self)
 
         if not from_csv:
@@ -34,11 +34,11 @@ class Expense:
     
     @staticmethod
     def create_timestamp():
-        dt_obj = datetime.datetime.now()
-        return dt_obj.strftime("%Y-%m-%d")
+        date_object = datetime.datetime.now()
+        return date_object.strftime("%Y-%m-%d")
     
     @staticmethod
-    def import_from_csv():
+    def load_expenses():
         filename = "expenses.csv"
         
         if not os.path.exists(filename):
@@ -57,10 +57,12 @@ class Expense:
                     )
 
         if len(Expense.expenses) > 0:
+            # Set the 'id' class attribute to the highest id seen
+            # Prevents multiple expense objects sharing an id
             Expense.id = max(e.id for e in Expense.expenses)
 
     @staticmethod
-    def export_to_csv():
+    def save_expenses():
         fieldnames = ["description", "amount", "category", "id", "timestamp"]
         with open("expenses.csv", "w", newline='') as file:
             writer = csv.DictWriter(file, fieldnames=fieldnames)
@@ -69,7 +71,7 @@ class Expense:
                 writer.writerow(vars(expense))
 
     @staticmethod
-    def load_budget():
+    def load_budgets():
         filename = "budgets.csv"
         if not os.path.exists(filename):
             return
@@ -79,7 +81,7 @@ class Expense:
                 Expense.budgets[row["timestamp"]] = row["budget"]
 
     @staticmethod
-    def save_budget():
+    def save_budgets():
         fieldnames = ["timestamp", "budget"]
         with open("budgets.csv", "w", newline="") as file:
             writer = csv.DictWriter(file, fieldnames=fieldnames)
