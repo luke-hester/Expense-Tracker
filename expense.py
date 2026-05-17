@@ -86,3 +86,24 @@ class Expense:
             writer.writeheader()
             for timestamp, budget in Expense.budgets.items():
                 writer.writerow({"timestamp": timestamp, "budget": budget})
+
+    def exceeds_budget(self):
+        response = ""
+
+        # Check if budget exists for month
+        current_month = self.timestamp[:7]
+
+        if current_month in Expense.budgets:
+            monthly_budget = float(Expense.budgets[current_month])
+
+            total_spent = sum(
+                e.amount for e in Expense.expenses
+                if e.timestamp.startswith(current_month)
+            )
+
+            if total_spent > monthly_budget:
+                overspend = total_spent - monthly_budget
+                response = f"Warning: You are €{overspend:.2f} over your {current_month} budget of €{monthly_budget:.2f}!"
+            else:
+                response = f"Spent: €{total_spent:.2f}/{monthly_budget:.2f} of budget for {current_month}"
+        return response
