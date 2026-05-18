@@ -34,13 +34,11 @@ summary_parser.add_argument("-d", "--date", type=str)
 list_parser = subparser.add_parser("list")
 list_parser.add_argument("-f", "--filter", type=str)
 
-# 'budget' command
-budget_parser = subparser.add_parser("budget")
-budget_parser.add_argument("-y", "--year", type=int, required=True)
-budget_parser.add_argument("-m", "--month", type=int, required=True)
-budget_parser.add_argument("-b", "--budget", type=float, required=True)
+# 'set_budget' command
+budget_parser = subparser.add_parser("set_budget")
+budget_parser.add_argument("-d", "--date", type=str, required=True)
+budget_parser.add_argument("-a", "--amount", type=float, required=True)
 
-# 'del_budget' command
-del_budget_parser = subparser.add_parser("del_budget")
-del_budget_parser.add_argument("-y", "--year", type=int, required=True)
-del_budget_parser.add_argument("-m", "--month", type=int, required=True)
+# 'delete_budget' command
+delete_budget_parser = subparser.add_parser("delete_budget")
+delete_budget_parser.add_argument("-d", "--date", type=str, required=True)

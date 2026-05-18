@@ -80,14 +80,33 @@ def list_expenses(args):
     return "\n".join(lines)
 
 def set_budget(args):
-    key = f"{args.year}-{args.month:02d}"
-    Expense.budgets[key] = args.budget
-    return f"Budget set for {key}: ${args.budget}"
+    date = args.date
+    amount = args.amount
+
+    # Validate date
+    try:
+        datetime.datetime.strptime(date, "%Y-%m")
+    except ValueError:
+        return f"Invalid date format {date}. Expected YYYY-MM"
+    
+    # Validate amount
+    if amount < 0:
+        return f"Budget amount cannot be below 0."
+
+    Expense.budgets[date] = amount
+    return f"Budget set for {date}: ${amount:.2f}"
 
 def delete_budget(args):
-    key = f"{args.year}-{args.month:02d}"
-    r = Expense.budgets.pop(key, None)
-    return f"Budget for {key} deleted successfully" if r is not None else "Budget not found."
+    date = args.date
+
+    # Validate date
+    try:
+        datetime.datetime.strptime(date, "%Y-%m")
+    except ValueError:
+        return f"Invalid date format {date}. Expected YYYY-MM"
+
+    budget = Expense.budgets.pop(date, None)
+    return f"Budget for {date} deleted successfully" if budget is not None else "Budget not found."
 
 def handle_commands(args):
     response = ""
@@ -107,10 +126,10 @@ def handle_commands(args):
     elif args.command == "summary":
         response = get_summary(args)
 
-    elif args.command == "budget":
+    elif args.command == "set_budget":
         response = set_budget(args)
     
-    elif args.command == "del_budget":
+    elif args.command == "delete_budget":
         response = delete_budget(args)
 
     return response
