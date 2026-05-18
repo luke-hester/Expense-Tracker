@@ -108,6 +108,16 @@ def delete_budget(args):
     budget = Expense.budgets.pop(date, None)
     return f"Budget for {date} deleted successfully" if budget is not None else "Budget not found."
 
+def view_budgets(args):
+    if len(Expense.budgets) < 1:
+        return "No budgets set."
+    
+    lines = ["# Date Amount"]
+    for date, amount in Expense.budgets.items():
+        lines.append(f"{date} ${float(amount):.2f}")
+
+    return "\n".join(lines)
+
 def handle_commands(args):
     response = ""
 
@@ -131,5 +141,8 @@ def handle_commands(args):
     
     elif args.command == "delete_budget":
         response = delete_budget(args)
+
+    elif args.command == "view_budgets":
+        response = view_budgets(args)
 
     return response
