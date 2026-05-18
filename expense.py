@@ -15,7 +15,7 @@ class Expense:
         # Assign values to self
         self.description = description
         self.amount = amount
-        self.category = category if category else "Uncategorized"
+        self.category = category if category and not category.isspace() else "Uncategorized"
         self.id = id if id is not None else Expense.create_id()
         self.timestamp = timestamp if timestamp is not None else Expense.create_timestamp()
 
