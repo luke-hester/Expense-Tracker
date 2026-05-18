@@ -50,19 +50,14 @@ class TestCli(unittest.TestCase):
 
     # Summary command tests
     def test_summary_valid_args(self):
-        args = parser.parse_args(["summary", "--month", "12"])
+        args = parser.parse_args(["summary", "--date", "2026-05"])
         self.assertEqual(args.command, "summary")
-        self.assertEqual(args.month, 12)
+        self.assertEqual(args.date, "2026-05")
 
-    def test_summary_month(self):
-        args = parser.parse_args(["summary", "--month", "06"])
-        self.assertEqual(args.command, "summary")
-        self.assertEqual(args.month, 6)
-
-    def test_summary_missing_month(self):
+    def test_summary_missing_date(self):
         args = parser.parse_args(["summary"])
         self.assertEqual(args.command, "summary")
-        self.assertIsNone(args.month)
+        self.assertIsNone(args.date)
 
     
     # List command tests

@@ -42,26 +42,27 @@ def delete_expense(args):
         return f"No expense with id {args.id} found."
 
 def get_summary(args):
-    if args.month:
-        if 1 <= args.month <= 12:
-            current_year = datetime.datetime.now().year
-
-            total = 0
-            for e in Expense.expenses:
-                e_time_obj = datetime.datetime.strptime(e.timestamp, "%Y-%m-%d")
-                e_year = e_time_obj.year
-                e_month = e_time_obj.month
-                if e_year == current_year and e_month == args.month:
-                    total += e.amount
-            return f"Total expenses for ({current_year}/{args.month}): ${total}"
-        else:
-            return "Invalid month. Please enter value 1 - 12"
-
-    else:
+    date = args.date
+    if date is None:
+        # No date provided, return all time total
         total = 0
         for e in Expense.expenses:
             total += e.amount
         return f"Total expenses: ${total:.2f}"
+    else:
+        # Validate date
+        try:
+            datetime.datetime.strptime(date, "%Y-%m")
+        except ValueError:
+            return f"Invalid date format {date}. Expected YYYY-MM"
+
+        # Return summary of spending for that date
+        total = 0
+        for e in Expense.expenses:
+            e_date = e.timestamp[:7]
+            if e_date == date:
+                total += e.amount
+        return f"Total expenses for {date}: ${total:.2f}"
 
 def list_expenses(args):
     if len(Expense.expenses) == 0:
