@@ -48,7 +48,7 @@ def get_summary(args):
         total = 0
         for e in Expense.expenses:
             total += e.amount
-        return f"Total expenses: ${total:.2f}"
+        return f"Total expenses: €{total:.2f}"
     else:
         # Validate date
         try:
@@ -62,7 +62,7 @@ def get_summary(args):
             e_date = e.timestamp[:7]
             if e_date == date:
                 total += e.amount
-        return f"Total expenses for {date}: ${total:.2f}"
+        return f"Total expenses for {date}: €{total:.2f}"
 
 def list_expenses(args):
     if len(Expense.expenses) == 0:
@@ -94,7 +94,7 @@ def set_budget(args):
         return f"Budget amount cannot be below 0."
 
     Expense.budgets[date] = amount
-    return f"Budget set for {date}: ${amount:.2f}"
+    return f"Budget set for {date}: €{amount:.2f}"
 
 def delete_budget(args):
     date = args.date
@@ -114,7 +114,7 @@ def view_budgets(args):
     
     lines = ["# Date Amount"]
     for date, amount in Expense.budgets.items():
-        lines.append(f"{date} ${float(amount):.2f}")
+        lines.append(f"{date} €{float(amount):.2f}")
 
     return "\n".join(lines)
 
