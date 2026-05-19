@@ -1,6 +1,10 @@
+"""
+Handles getting command line args.
+Current commands: "add", "update", "delete", "summary", "list", "set_budget", "delete_budget", "view_budgets".
+"""
+
 import argparse
 
-# Commands: "add", "update", "delete", "summary", "list", "set_budget", "delete_budget", "view_budgets"
 
 parser = argparse.ArgumentParser(
     prog="expense-tracker",
@@ -9,11 +13,13 @@ parser = argparse.ArgumentParser(
 
 subparser = parser.add_subparsers(dest="command")
 
+
 # 'add' command
 add_parser = subparser.add_parser("add")
 add_parser.add_argument("-d", "--description", type=str, required=True)
 add_parser.add_argument("-a", "--amount", type=float, required=True)
 add_parser.add_argument("-c", "--category", type=str)
+
 
 # 'update' command
 update_parser = subparser.add_parser("update")
@@ -22,26 +28,32 @@ update_parser.add_argument("-d", "--description", type=str)
 update_parser.add_argument("-a", "--amount", type=float)
 update_parser.add_argument("-c", "--category", type=str)
 
+
 # 'delete' command
 delete_parser = subparser.add_parser("delete")
 delete_parser.add_argument("--id", type=int, required=True)
+
 
 # 'summary' command
 summary_parser = subparser.add_parser("summary")
 summary_parser.add_argument("-d", "--date", type=str)
 
+
 # 'list' command
 list_parser = subparser.add_parser("list")
-list_parser.add_argument("-f", "--filter", type=str)
+list_parser.add_argument("-c", "--category", type=str)
+
 
 # 'set_budget' command
 set_budget_parser = subparser.add_parser("set_budget")
 set_budget_parser.add_argument("-d", "--date", type=str, required=True)
 set_budget_parser.add_argument("-a", "--amount", type=float, required=True)
 
+
 # 'delete_budget' command
 delete_budget_parser = subparser.add_parser("delete_budget")
 delete_budget_parser.add_argument("-d", "--date", type=str, required=True)
+
 
 # 'view_budgets' command
 view_budget_parser = subparser.add_parser("view_budgets")

@@ -1,22 +1,34 @@
 from cli import parser
-from expense import Expense
-import expense_manager
+from expense_manager import ExpenseManager
+
+expenses_file = "expenses.csv"
+budgets_file = "budgets.csv"
 
 def main():
-    # Load data
-    Expense.load_expenses()
-    Expense.load_budgets()
+    # Create manager and load data
+    manager = ExpenseManager()
+    manager.load(
+        expenses_file=expenses_file,
+        budgets_file=budgets_file
+        )
 
-    # Get CLI args
+    # Get command line args
     args = parser.parse_args()
 
-    # Handle commands
-    response = expense_manager.handle_commands(args)
-    if response: print(response)
-    
+    # Print response(s)
+    response = manager.handle(args)
+    if response:
+        if type(response) == str:
+            print(response)
+        elif type(response) == list:
+            for r in response: print(r)
+
     # Save data
-    Expense.save_expenses()
-    Expense.save_budgets()
+    manager.save(
+        expenses_file=expenses_file,
+        budgets_file=budgets_file
+        )
+
 
 if __name__ == "__main__":
     main()
