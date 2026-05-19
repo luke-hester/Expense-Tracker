@@ -5,12 +5,12 @@ import os
 class Expense:
     # Class Attributes
     id = 0
-    expenses = []
-    budgets = {}  # {"2026-05": 1200, "2026-06": 800} # contains only strings
+    expenses = [] # [Expense('Netflix', 23.0, Entertainment, 1, 2026-05-12)] # holds the Expense instances
+    budgets = {}  # {"2026-05": 1200, "2026-06": 800} # contains {str: int} pairs
 
     def __init__(self, description: str, amount: float, category: str, id: int = None, timestamp: str = None, from_csv: bool = False):
         # Validate arguments
-        assert amount >= 0, f"Amount {amount} cannot be negative."
+        if amount <= 0: raise ValueError(f"Amount {amount} must be greater than 0")
 
         # Assign values to self
         self.description = description
@@ -47,7 +47,7 @@ class Expense:
         with open(filename, "r") as file:
             reader = csv.DictReader(file)
             for row in reader:
-                e = Expense(
+                Expense(
                     description=row["description"],
                     amount=float(row["amount"]),
                     category=row["category"],
@@ -78,7 +78,7 @@ class Expense:
         with open(filename, "r") as file:
             reader = csv.DictReader(file)
             for row in reader:
-                Expense.budgets[row["timestamp"]] = row["budget"]
+                Expense.budgets[row["timestamp"]] = float(row["budget"])
 
     @staticmethod
     def save_budgets():
@@ -90,8 +90,6 @@ class Expense:
                 writer.writerow({"timestamp": timestamp, "budget": budget})
 
     def exceeds_budget(self):
-        response = ""
-
         # Check if budget exists for month
         current_month = self.timestamp[:7]
 
@@ -105,7 +103,6 @@ class Expense:
 
             if total_spent > monthly_budget:
                 overspend = total_spent - monthly_budget
-                response = f"Warning: You are €{overspend:.2f} over your {current_month} budget of €{monthly_budget:.2f}!"
+                return f"Warning: You are €{overspend:.2f} over your {current_month} budget of €{monthly_budget:.2f}!"
             else:
-                response = f"Spent: €{total_spent:.2f}/{monthly_budget:.2f} of budget for {current_month}"
-        return response
+                return f"Spent: €{total_spent:.2f}/€{monthly_budget:.2f} of budget for {current_month}"
