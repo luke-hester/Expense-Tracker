@@ -1,21 +1,38 @@
 # Expense Tracker
-This is my submission to the Expense Tracker project on roadmap.sh
-https://roadmap.sh/projects/expense-tracker
+A command line application for managing personal expenses and budgets. Built as a submission to the [Expense Tracker project](https://roadmap.sh/projects/expense-tracker) on roadmap.sh.
 
-It is currently a work in progress.
+## Features
+- Add, update, delete expenses with descriptions, amounts and categories.
+- View all expenses with optional filtering by category.
+- View a spending summary for all time or a specific month.
+- Set and manage monthly budgets with overspend warnings.
+- CSV expense importing and exporting.
 
-# Requirements
-Application should run from the command line and should have the following features:
+## Usage
 
-- Users can add an expense with a description and amount. [x]
-- Users can update an expense. [x]
-- Users can delete an expense. [x]
-- Users can view all expenses. [x]
-- Users can view a summary of all expenses. [x]
-- Users can view a summary of expenses for a specific month (of current year). [x]
+### Expenses
+```bash
+python main.py add -d "Groceries" -a 45.50 -c "Food"
+python main.py update --id 1 -a 50.00
+python main.py delete --id 1
+python main.py list
+python main.py list -c "Food"
+```
 
-Additional features that you can add to the application:
+### Summary
+```bash
+python main.py summary
+python main.py summary -d 2026-05
+```
 
-- Add expense categories and allow users to filter expenses by category. [x]
-- Allow users to set a budget for each month and show a warning when the user exceeds the budget. [ ]
-- Allow users to export expenses to a CSV file. [x]
+### Budgets
+```bash
+python main.py set_budget -d 2026-05 -a 500
+python main.py view_budgets
+python main.py delete_budget -d 2026-05
+```
+
+## Requirements
+Python 3.x
+
+No external dependencies
